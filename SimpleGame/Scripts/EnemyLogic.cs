@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EnemyLogic : MonoBehaviour
 {
+    [SerializeField] private GameObject _projectile;
     [SerializeField] private float _speed;
     private GameObject _player;
     private Vector3 _playerPosition;
 
     private void Start()
     {
-        _player = GameObject.Find("Player");
+        _player = Player.GetPlayer();
     }
 
     private void Update()
@@ -23,13 +24,13 @@ public class EnemyLogic : MonoBehaviour
     }
     private void OnTriggerEnter(Collider body)
     {       
-        if(body.name == "Player") 
+        if(body.gameObject == _player) 
         {
             Destroy(_player);
             Debug.Log("Game Over");
         }   
         
-        if(body.tag == "Projectile") 
+        if(body.gameObject.name.Contains(_projectile.name))
         {
             Destroy(gameObject);
             Enemy.EnemiesSpawn.Decrease();

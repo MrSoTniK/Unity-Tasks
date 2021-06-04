@@ -8,16 +8,15 @@ namespace Enemy
     public class EnemiesSpawn : MonoBehaviour
     {            
         [SerializeField] private GameObject _template;
-        private GameObject[] _spawnZones;
+        [SerializeField] private Transform[] _spawnZones;
         private GameObject _player;
         private bool _isCreatingEnemyCycleWork;
         public static int EnemiesQuantity { get; private set; }
 
         private void Start()
         {
-            _player = GameObject.Find("Player");
-            _isCreatingEnemyCycleWork = true;
-            _spawnZones = GameObject.FindGameObjectsWithTag("SpawnZone");
+            _player = Player.GetPlayer();
+            _isCreatingEnemyCycleWork = true;        
             EnemiesQuantity = 0;          
             StartCoroutine(CreateEnemy());
         }    
@@ -42,8 +41,8 @@ namespace Enemy
             {
                 if (EnemiesQuantity <= 11)
                 {
-                    int spawnZoneId = Random.Range(0, 3);
-                    GameObject newEnemy = Instantiate(_template, _spawnZones[spawnZoneId].transform.position, _template.transform.rotation);
+                    int spawnZoneId = Random.Range(0, 4);
+                    GameObject newEnemy = Instantiate(_template, _spawnZones[spawnZoneId].position, _template.transform.rotation);
                     EnemiesQuantity++;
                     yield return new WaitForSeconds(2);
                 }

@@ -6,13 +6,12 @@ public class ProjectileSpawnAndMovement : MonoBehaviour
 {
     [SerializeField] private float _projectileSpeed;
     [SerializeField] private GameObject _template;
-    private GameObject _firePoint;
+    [SerializeField] private GameObject _firePoint;
     private GameObject _newProjectile;
     private bool _isPauseInShooting;
 
     private void Start()
-    {
-        _firePoint = GameObject.Find("FirePoint");
+    {      
         _isPauseInShooting = false;
     }
 

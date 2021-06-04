@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ProjectileDeletion : MonoBehaviour
 {
+    [SerializeField] private GameObject _enemy;
+
     private float _runningTime;
 
     private void Start()
@@ -22,7 +24,8 @@ public class ProjectileDeletion : MonoBehaviour
 
     private void OnTriggerEnter(Collider body)
     {
-        if(body.tag == "Enemy")
+        Debug.Log(body.gameObject.GetType().ToString());
+        if(body.gameObject.name.Contains(_enemy.name))
         Destroy(gameObject);
     }
 }
