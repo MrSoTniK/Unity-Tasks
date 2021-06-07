@@ -1,17 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyLogic : MonoBehaviour
 {
-    [SerializeField] private GameObject _projectile;
     [SerializeField] private float _speed;
     private GameObject _player;
     private Vector3 _playerPosition;
 
+    private GameObject GetPlayer() 
+    {
+        GameObject player = null;
+        GameObject[] sceneGameObjects = FindObjectsOfType<GameObject>();
+
+        foreach (var item in sceneGameObjects)
+        {
+            if (item.TryGetComponent<Player>(out Player playerUnit))
+            {
+                player = item;
+                Debug.Log("Success");
+            }
+        }
+
+        return player;
+    }
+
     private void Start()
     {
-        _player = Player.GetPlayer();
+        _player = GetPlayer();
     }
 
     private void Update()
@@ -24,13 +41,13 @@ public class EnemyLogic : MonoBehaviour
     }
     private void OnTriggerEnter(Collider body)
     {       
-        if(body.gameObject == _player) 
+        if(body.TryGetComponent<Player>(out Player player)) 
         {
-            Destroy(_player);
+            Destroy(player.gameObject);
             Debug.Log("Game Over");
         }   
         
-        if(body.gameObject.name.Contains(_projectile.name))
+        if(body.TryGetComponent<ProjectileDeletion>(out ProjectileDeletion projectile))
         {
             Destroy(gameObject);
             Enemy.EnemiesSpawn.Decrease();

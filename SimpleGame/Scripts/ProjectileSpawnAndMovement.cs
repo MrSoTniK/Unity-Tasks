@@ -7,6 +7,7 @@ public class ProjectileSpawnAndMovement : MonoBehaviour
     [SerializeField] private float _projectileSpeed;
     [SerializeField] private GameObject _template;
     [SerializeField] private GameObject _firePoint;
+    [SerializeField] private float _pauseBetweenShots;
     private GameObject _newProjectile;
     private bool _isPauseInShooting;
 
@@ -29,7 +30,7 @@ public class ProjectileSpawnAndMovement : MonoBehaviour
         Rigidbody projectileRigidBody = _newProjectile.GetComponent<Rigidbody>();
         projectileRigidBody.velocity = _projectileSpeed * _firePoint.transform.up;
         _isPauseInShooting = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(_pauseBetweenShots);
         _isPauseInShooting = false;
         StopCoroutine(Shoot());
     }
