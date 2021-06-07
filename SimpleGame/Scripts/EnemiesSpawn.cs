@@ -9,13 +9,33 @@ namespace Enemy
     {            
         [SerializeField] private GameObject _template;
         [SerializeField] private Transform[] _spawnZones;
+        [SerializeField] private float _maxEnemiesQuantity;
+        [SerializeField] private float _pauseBetweenEnemiesSpawn;
         private GameObject _player;
         private bool _isCreatingEnemyCycleWork;
         public static int EnemiesQuantity { get; private set; }
 
+        private GameObject GetPlayer()
+        {
+            GameObject player = null;
+            GameObject[] sceneGameObjects = FindObjectsOfType<GameObject>();
+
+            foreach (var item in sceneGameObjects)
+            {
+                if (item.TryGetComponent<Player>(out Player playerUnit))
+                {
+                    player = item;
+                    Debug.Log("Success");
+                }
+            }
+
+            return player;
+        }
+
         private void Start()
         {
-            _player = Player.GetPlayer();
+            _player = GetPlayer();
+
             _isCreatingEnemyCycleWork = true;        
             EnemiesQuantity = 0;          
             StartCoroutine(CreateEnemy());
@@ -23,7 +43,7 @@ namespace Enemy
 
         private void Update()
         {
-            if(!_isCreatingEnemyCycleWork && EnemiesQuantity < 11 && _player != null) 
+            if(!_isCreatingEnemyCycleWork && EnemiesQuantity < _maxEnemiesQuantity && _player != null) 
             {
                 _isCreatingEnemyCycleWork = true;
                 StartCoroutine(CreateEnemy());
@@ -39,12 +59,13 @@ namespace Enemy
         {
             while (_isCreatingEnemyCycleWork && _player != null) 
             {
-                if (EnemiesQuantity <= 11)
+                if (EnemiesQuantity < _maxEnemiesQuantity)
                 {
-                    int spawnZoneId = Random.Range(0, 4);
+                    int spawnZonesQuantity = _spawnZones.Count();
+                    int spawnZoneId = Random.Range(0, spawnZonesQuantity);
                     GameObject newEnemy = Instantiate(_template, _spawnZones[spawnZoneId].position, _template.transform.rotation);
                     EnemiesQuantity++;
-                    yield return new WaitForSeconds(2);
+                    yield return new WaitForSeconds(_pauseBetweenEnemiesSpawn);
                 }
                 else 
                 {
