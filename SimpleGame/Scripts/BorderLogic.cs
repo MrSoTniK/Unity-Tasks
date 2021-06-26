@@ -6,8 +6,8 @@ using UnityEngine;
 public class BorderLogic : MonoBehaviour
 {  
     private void OnTriggerEnter(Collider body)
-    {       
-        if (body.TryGetComponent<ProjectileDeletion>(out ProjectileDeletion projectile))
-        Destroy(body.gameObject);
+    {
+        if (body.TryGetComponent<Projectile>(out Projectile projectile))
+            projectile.Die();
     }
 }
