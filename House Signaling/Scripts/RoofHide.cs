@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Renderer))]
 public class RoofHide : MonoBehaviour
 {
     private Slider _slider;
@@ -18,14 +19,14 @@ public class RoofHide : MonoBehaviour
 
         if (_slider.value == 1.0f  && isUnactive == false) 
         {
-            gameObject.GetComponent<Renderer>().enabled = false;           
+            GetComponent<Renderer>().enabled = false;           
             isUnactive = true;
             isActive = false;
         }
 
         if(_slider.value == 0.0f  && isActive == false) 
         {
-            gameObject.GetComponent<Renderer>().enabled = true;
+            GetComponent<Renderer>().enabled = true;
             isUnactive = false;
             isActive = true;
         }      
