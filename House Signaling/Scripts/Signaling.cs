@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Signaling : MonoBehaviour
 {    
     private AudioSource _signalingSound;
@@ -10,7 +11,7 @@ public class Signaling : MonoBehaviour
 
     private void Start()
     {     
-        _signalingSound = gameObject.GetComponent<AudioSource>();
+        _signalingSound = GetComponent<AudioSource>();
         _occurrenceCount = 0;
         _exitCount = 0;
     }
@@ -53,7 +54,6 @@ public class Signaling : MonoBehaviour
             _signalingSound.volume = i;
             yield return new WaitForSeconds(1f);
         }     
-        StopCoroutine(FadeIn(speed));
     }
 
     IEnumerator FadeOut(float speed)
@@ -64,6 +64,5 @@ public class Signaling : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         _signalingSound.Stop();      
-        StopCoroutine(FadeOut(speed));
     }
 }
