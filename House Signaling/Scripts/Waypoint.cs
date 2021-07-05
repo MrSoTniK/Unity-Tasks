@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    [SerializeField] private string[] _animationsToSetActive;
-    [SerializeField] private string[] _animationsToSetInactive;
-    [SerializeField] private string _trigerName;
     [SerializeField] private bool _isTrigerExist;
     [SerializeField] private bool _isAnimationExist;
-    [SerializeField] private Vector3 _coordinate;
-    [SerializeField] private float _speed;
     [SerializeField] private bool _isPauseExist;
+
+    [SerializeField] private string[] _animationsToSetActive;
+    [SerializeField] private string[] _animationsToSetInactive;
+
+    [SerializeField] private string _trigerName;
+    
     [SerializeField] private float _pauseTime;
+    [SerializeField] private float _speed;
+
+    [SerializeField] private Vector3 _coordinate;
+
+    public Vector3 Coordinate { get; private set; }
+    public float Speed { get; private set; }
+    public float PauseTime { get; private set; }
+    public bool IsPauseExist { get; private set; }
+
+    public void Start()
+    {
+        Coordinate = _coordinate;
+        Speed = _speed;
+        IsPauseExist = _isPauseExist;
+        PauseTime = _pauseTime;
+    }
 
     public void SetAnimations(Animator animator) 
     {
@@ -32,25 +49,5 @@ public class Waypoint : MonoBehaviour
         {
             animator.SetTrigger(_trigerName);
         }
-    }    
-
-    public Vector3 GetCoordinate() 
-    {
-        return _coordinate;
-    }
-
-    public float GetSpeed() 
-    {
-        return _speed;
-    }
-
-    public bool CheckPause() 
-    {
-        return _isPauseExist;
-    }
-
-    public float GetPauseTime() 
-    {
-        return _pauseTime;
-    }
+    }        
 }
