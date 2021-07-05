@@ -6,29 +6,29 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Renderer))]
 public class RoofHide : MonoBehaviour
 {
-    private Slider _slider;
+    [SerializeField] private Slider _slider;
 
-    void Start()
+    private Renderer _roofRenderer;
+    private bool _isActive;
+
+    private void Start()
     {
-        _slider = GameObject.FindObjectOfType<Slider>();
+        _isActive = true;
+        _roofRenderer = GetComponent<Renderer>();
     }
-
-    void Update()
+   
+    public void Hide() 
     {
-        bool isActive = false, isUnactive = false;
-
-        if (_slider.value == 1.0f  && isUnactive == false) 
+        if (_slider.value == 1.0f && _isActive == true)
         {
-            GetComponent<Renderer>().enabled = false;           
-            isUnactive = true;
-            isActive = false;
+            _roofRenderer.enabled = false;
+            _isActive = false;
         }
 
-        if(_slider.value == 0.0f  && isActive == false) 
+        if (_slider.value == 0.0f && _isActive == false)
         {
-            GetComponent<Renderer>().enabled = true;
-            isUnactive = false;
-            isActive = true;
-        }      
+            _roofRenderer.enabled = true;
+            _isActive = true;
+        }
     }
 }
