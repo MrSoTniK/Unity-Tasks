@@ -5,9 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Signaling : MonoBehaviour
 {    
+    [SerializeField] private float _fadingSpeed;
+
     private AudioSource _signalingSound;
     private int _occurrenceCount;
-    private int _exitCount;
+    private int _exitCount;   
 
     private void Start()
     {     
@@ -18,51 +20,45 @@ public class Signaling : MonoBehaviour
 
     private void OnTriggerEnter()
     {
-        if(_occurrenceCount > 2) 
-        {
-            _occurrenceCount = 0;
-        }
-        _occurrenceCount++;
-        float divisionRemainder = _occurrenceCount % 2;
-        if (_signalingSound != null && divisionRemainder != 0)
-        {
-            StartCoroutine(FadeIn(0.2f));
-        }      
+        _occurrenceCount = ChangeSignalizationVolume(_occurrenceCount, Fade(_fadingSpeed, 0, 1), 1);      
     }
 
     private void OnTriggerExit()
     {
-        if (_exitCount > 2)
-        {
-            _exitCount = 0;
-        }
-        _exitCount++;
-        float divisionRemainder = _exitCount % 2;
-        if (_signalingSound != null && divisionRemainder == 0)
-        {
-            StartCoroutine(FadeOut(0.2f));
-        }
+        _exitCount = ChangeSignalizationVolume(_exitCount, Fade(_fadingSpeed, 1, 0), 2);      
     }
 
-    IEnumerator FadeIn(float speed)
+    private int ChangeSignalizationVolume(int zoneEnteringQuantity, IEnumerator function, int enteringQuantityValue) 
     {
-        _signalingSound.volume = 0f;
+        int maxEnteringQuantity = 2;
+
+        if (zoneEnteringQuantity > maxEnteringQuantity)       
+            zoneEnteringQuantity = 0;       
+
+        zoneEnteringQuantity++;
+
+        if (_signalingSound != null && zoneEnteringQuantity == enteringQuantityValue)       
+            StartCoroutine(function);
+        
+        return zoneEnteringQuantity;
+    }
+
+    private IEnumerator Fade(float speed, float currentVolume, float targetVolume)
+    {     
+        float elapsedTime = 0;
+        float pauseBetweenElapsing = 0.01f;
+
+        _signalingSound.volume = currentVolume;
         _signalingSound.Play();
 
-        for (float i = 0; i <= 1; i += speed)
+        while (_signalingSound.volume != targetVolume)
         {
-            _signalingSound.volume = i;
-            yield return new WaitForSeconds(1f);
-        }     
-    }
-
-    IEnumerator FadeOut(float speed)
-    {
-        for (float i = 1; i >= 0; i -= speed)
-        {
-            _signalingSound.volume = i;
-            yield return new WaitForSeconds(1f);
+            elapsedTime += Time.deltaTime;
+            _signalingSound.volume = Mathf.MoveTowards(currentVolume, targetVolume, speed * elapsedTime);
+            yield return new WaitForSeconds(pauseBetweenElapsing);
         }
-        _signalingSound.Stop();      
-    }
+
+        if (_signalingSound.volume == 0)
+            _signalingSound.Stop();
+    }   
 }
