@@ -7,10 +7,9 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private float _speedOffset;
     [SerializeField] private Vector3 _positionOffest;
-    [SerializeField] private float _leftLimit;
-    [SerializeField] private float _rightLimit;
-    [SerializeField] private float _bottomLimit;
-    [SerializeField] private float _topLimit;
+     //Vectors for camera limits of Deckard coordinate system quarters (Векторы для границ камеры в виде четвертей Декартовой системы координат):
+    [SerializeField] private Vector2 _thirdQuarterLimit;
+    [SerializeField] private Vector2 _firstQuarterLimit;  
 
     private Vector3 _velocity;
 
