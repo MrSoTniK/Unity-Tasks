@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private void Start()
-    {
-        _rigidBody = GetComponent<Rigidbody2D>();
-		_facingRight = true;
+        {
+                _rigidBody = GetComponent<Rigidbody2D>();
+                _facingRight = true;
 		_velocity = Vector2.zero;
 	}
 }
