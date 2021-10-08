@@ -8,7 +8,6 @@ public class CharacterMovement2D : MonoBehaviour
 {
     [SerializeField] private float _moveVelocity;
     [SerializeField] private float _pauseTime;
-    [SerializeField] private string[] _animatorParameters;
 
     private CharacterController2D _controller;
     private Animator _animator;
@@ -17,7 +16,7 @@ public class CharacterMovement2D : MonoBehaviour
 
     public void OnLanding() 
     {
-        _animator.SetBool(_animatorParameters[1], false);
+        _animator.SetBool(AnimatorCharacter.Params.IsJumping, false);
     }  
 
     private void Start()
@@ -28,14 +27,14 @@ public class CharacterMovement2D : MonoBehaviour
 
     private void Update()
     {
-        _horizontalMove = Input.GetAxisRaw("Horizontal") * _moveVelocity;
+        _horizontalMove = Input.GetAxisRaw(InputManager.Axes.Horizontal) * _moveVelocity;
 
-        _animator.SetFloat(_animatorParameters[0], Mathf.Abs(_horizontalMove));
+        _animator.SetFloat(AnimatorCharacter.Params.Speed, Mathf.Abs(_horizontalMove));
 
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton(InputManager.Axes.Jump))
         {
             _isJump = true;
-            _animator.SetBool(_animatorParameters[1], true);
+            _animator.SetBool(AnimatorCharacter.Params.IsJumping, true);
         }
     }
 
