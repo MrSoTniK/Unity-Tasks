@@ -22,16 +22,12 @@ public class EnemyLogicSwitcher2D : MonoBehaviour
 
         _wasPlayerNear = _isPlayerNear;
 
-        if (distanceToPlayer <= _agroRange) 
-        {
-            OnPursueEvent.Invoke(true);
-            _isPlayerNear = true;
-        }
-        else 
-        {
-            OnPursueEvent.Invoke(false);
-            _isPlayerNear = false;
-        }
+      if (distanceToPlayer <= _agroRange)       
+            _isPlayerNear = true;      
+        else       
+            _isPlayerNear = false;       
+
+        OnPursueEvent.Invoke(_isPlayerNear);
 
         if (!_isPlayerNear && _wasPlayerNear)
             OnPlayerLost.Invoke();
