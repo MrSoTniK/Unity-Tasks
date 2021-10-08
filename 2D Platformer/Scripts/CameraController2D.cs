@@ -9,10 +9,8 @@ public class CameraController2D : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private float _speedOffset;
     [SerializeField] private Vector2 _positionOffest;
-    [SerializeField] private float _leftLimit;
-    [SerializeField] private float _rightLimit;
-    [SerializeField] private float _bottomLimit;
-    [SerializeField] private float _topLimit;
+    [SerializeField] private Vector2 _thirdQuarterLimit;
+    [SerializeField] private Vector2 _firstQuarterLimit;
 
     private Vector3 _velocity;
 
@@ -34,8 +32,8 @@ public class CameraController2D : MonoBehaviour
 
         transform.position = new Vector3
         (
-            Mathf.Clamp(transform.position.x, _leftLimit, _rightLimit),
-            Mathf.Clamp(transform.position.y, _bottomLimit, _topLimit),
+            Mathf.Clamp(transform.position.x, _thirdQuarterLimit.x, _firstQuarterLimit.x),
+            Mathf.Clamp(transform.position.y, _thirdQuarterLimit.y, _firstQuarterLimit.y),
             transform.position.z
         );
     }
