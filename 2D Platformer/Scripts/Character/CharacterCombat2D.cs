@@ -6,9 +6,6 @@ using UnityEngine;
 public class CharacterCombat2D : MonoBehaviour
 {
     [SerializeField] private KeyCode _attackKey;
-    [SerializeField] private string  _attackAnimationParameter;
-    [SerializeField] private string _runAnimationParameter;
-    [SerializeField] private string _jumpAnimationParameter;
     [SerializeField] private float _speedMinValueAccurance;
     [SerializeField] private float _timeOfAttackAnimation;
     [SerializeField] private Collider2D _weaponCollider;
@@ -32,12 +29,12 @@ public class CharacterCombat2D : MonoBehaviour
         float speedValue;
         bool isJumping;
 
-        speedValue = _animator.GetFloat(_runAnimationParameter);
-        isJumping = _animator.GetBool(_jumpAnimationParameter);
+        speedValue = _animator.GetFloat(AnimatorCharacter.Params.Speed);
+        isJumping = _animator.GetBool(AnimatorCharacter.Params.IsJumping);
 
         if(speedValue < _speedMinValueAccurance && !isJumping) 
         {
-            _animator.SetTrigger(_attackAnimationParameter);
+            _animator.SetTrigger(AnimatorCharacter.Params.IsAttack);
             StartCoroutine(SetWeaponColliderActive());
         }
     }
