@@ -13,7 +13,6 @@ public class TextAnimator : MonoBehaviour
     private TMP_Text _textField;
     private Color _currentColor;
     private Color _targetColor;
-    private Vector3 _currentVelocity;
     private float _elapsedTime;
 
     private void Start()
