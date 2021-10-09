@@ -25,8 +25,7 @@ public class TextAnimator : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
-      
+    {      
         _textField.color = Color.Lerp(_currentColor, _targetColor, _speed * _elapsedTime);
         _elapsedTime += Time.deltaTime;
 
