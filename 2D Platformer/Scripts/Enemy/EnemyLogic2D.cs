@@ -12,7 +12,7 @@ public class EnemyLogic2D : MonoBehaviour
     [SerializeField] private Transform _playerPosition;
 
     public UnityEvent<int> OnTouchEvent;
-    private EnemyController2D _controller;
+    private EnemyMovementController2D _controller;
     private int _currentId;
     private bool _isPause;
 
@@ -26,7 +26,7 @@ public class EnemyLogic2D : MonoBehaviour
 
     private void Start()
     {
-        _controller = GetComponent<EnemyController2D>();
+        _controller = GetComponent<EnemyMovementController2D>();
         _isPause = false;
     }
 
