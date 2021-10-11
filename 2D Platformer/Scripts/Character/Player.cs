@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Slider _hpBar;
     [SerializeField] private TMP_Text _hpIndicator;
 
-    public UnityEvent OnPlayerDeath;
+    public UnityAction OnPlayerDeath;
     private int _currentHealth;
 
     public void TakeDamage(int damage)
