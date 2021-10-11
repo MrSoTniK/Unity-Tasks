@@ -33,13 +33,18 @@ public class EnemyLogicSwitcher2D : MonoBehaviour
             OnPlayerLost.Invoke();
     }
 
-    public void OnPlayerDeath()
+    private void Start()
     {
-        _agroRange = -1;
+        _playerPosition.OnPlayerDeath += OnPlayerDeath;
     }
 
     private void Update()
     {
         CheckDistanceToPlayer();
+    }
+
+    private void OnPlayerDeath()
+    {
+        _agroRange = -1;
     }
 }
