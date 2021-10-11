@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Enemy))]
-public class EnemyController2D : MonoBehaviour
+public class EnemyMovementController2D : MonoBehaviour
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _moveSpeed;
@@ -98,24 +98,14 @@ public class EnemyController2D : MonoBehaviour
     {
         if (_isGrounded) 
         {
-            Vector2 direction = new Vector2(_currentDirection, 0);
-           // Collider2D[] colliders = Physics2D.OverlapPointAll(_wallChecker.position, _environmentLayers);
+            Vector2 direction = new Vector2(_currentDirection, 0);         
             RaycastHit2D[] hits = Physics2D.RaycastAll(_wallChecker.position, direction, _raycastDistance, _environmentLayers);
             Debug.DrawRay(_wallChecker.position, direction, Color.red, _raycastDistance);
             if(hits.Length != 0) 
             {
                 _isGrounded = false;
                 Move(_jumpForce, true);
-            }
-
-            //  for (int i = 0; i < hits.Length; i++)
-            //  {
-            //      if (colliders[i].gameObject != gameObject)
-            //      {
-            //          _isGrounded = false;
-            //         Move(_jumpForce, true);
-            //      }
-            //  }
+            }           
         }      
     }
 
