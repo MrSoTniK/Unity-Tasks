@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         if (Health > MaxHealth)
             Health = MaxHealth;
 
-        if(Health < 0) 
+        if(Health <= 0) 
         {
             Health = 0;
             Die();
