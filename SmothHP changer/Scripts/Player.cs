@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] public float MaxHealth;
     public float Health { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         Health = MaxHealth;
     }
