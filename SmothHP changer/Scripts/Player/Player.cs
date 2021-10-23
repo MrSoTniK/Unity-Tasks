@@ -20,33 +20,20 @@ public class Player : MonoBehaviour
 
     public void ChangeHealth(float health) 
     {       
-        Health = CheckHealth(health);
+        Health = Mathf.Clamp(health, 0, _maxHealth);
         HealthChanged?.Invoke(Health, _maxHealth);
         TryToDie();
     }
 
-    public void TryToDie()
+    private void TryToDie()
     {
         if (Health <= 0)
             Die();
     }
 
-    public void Die()
+    private void Die()
     {
         gameObject.SetActive(false);
         GameOverMenu.Load();
-    }
-
-    private float CheckHealth(float health) 
-    {
-        float newHealth = health;
-
-        if (health > _maxHealth)
-            newHealth = _maxHealth;
-
-        if (health <= 0)
-            newHealth = 0;
-
-        return newHealth;
-    }    
+    }   
 }
