@@ -6,16 +6,23 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
+    [SerializeField] private float _takeDistance;
+    [SerializeField] private float _holdDistance;
+    [SerializeField] private float _throwForce;
 
     private PlayerInput _input;
     private Vector2 _direction;
     private Vector2 _rotate;
     private Vector2 _rotation;
+    private GameObject _currentGameObject;
 
     private void Awake()
     {
         _input = new PlayerInput();
-        _input.Enable();     
+        _input.Enable();
+        _input.Player.PcikUp.performed += ctx => TryPickUp();
+        _input.Player.Throw.performed += ctx => Throw();
+        _input.Player.Drop.performed += ctx => Throw(true);
     }
 
     private void Update()
@@ -35,7 +42,6 @@ public class Player : MonoBehaviour
         float scaledMoveSpeed = _moveSpeed * Time.deltaTime;
         Vector3 move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
         transform.position += move * scaledMoveSpeed;
-
     }
 
     private void Look(Vector2 rotate)
@@ -47,5 +53,28 @@ public class Player : MonoBehaviour
         _rotation.y += rotate.x * scaledRotateSpeed;
         _rotation.x = Mathf.Clamp(_rotation.x - rotate.y * scaledRotateSpeed, -90, 90);
         transform.localEulerAngles = _rotation;
+    }
+
+    private void TryPickUp() 
+    {
+        if(Physics.Raycast(transform.position, transform.forward, out var hitInfo, _takeDistance) && !hitInfo.collider.gameObject.isStatic)
+        {
+            _currentGameObject = hitInfo.collider.gameObject;
+            _currentGameObject.transform.position = default;
+            _currentGameObject.transform.SetParent(transform, worldPositionStays: false);
+            _currentGameObject.transform.localPosition += new Vector3(0, 0, _holdDistance);
+            _currentGameObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+
+    private void Throw(bool drop = false) 
+    {
+        _currentGameObject.transform.parent = null;
+
+        var rigidBody = _currentGameObject.GetComponent<Rigidbody>();
+        rigidBody.isKinematic = false;
+
+        if (!drop)
+            rigidBody.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
     }
 }
