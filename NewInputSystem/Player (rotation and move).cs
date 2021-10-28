@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
 
         float scaledRotateSpeed = _rotateSpeed * Time.deltaTime;
         _rotation.y += rotate.x * scaledRotateSpeed;
-        _rotation.x += Mathf.Clamp(_rotation.x - rotate.y * scaledRotateSpeed, -90, 90);
+        _rotation.x = Mathf.Clamp(_rotation.x - rotate.y * scaledRotateSpeed, -90, 90);
         transform.localEulerAngles = _rotation;
     }
 }
