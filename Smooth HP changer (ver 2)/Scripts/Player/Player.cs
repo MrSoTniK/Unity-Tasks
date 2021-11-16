@@ -15,6 +15,30 @@ public class Player : MonoBehaviour
         Health = _maxHealth;
     }
 
+    public bool CheckHealingPossibility() 
+    {
+        bool isHealingPossible;
+
+        if (Health < _maxHealth)
+            isHealingPossible = true;
+        else
+            isHealingPossible = false;
+
+        return isHealingPossible;
+    }
+
+    public bool CheckDamagePossibility()
+    {
+        bool isDamagePossible;
+
+        if (Health > 0)
+            isDamagePossible = true;
+        else
+            isDamagePossible = false;
+
+        return isDamagePossible;
+    }
+
     public void TakeDamage(float damage) 
     {
         Health -= damage;
